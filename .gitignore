@@ -1,0 +1,6 @@
+*.swp
+bin
+share
+ext/gccxml-build
+ext/gccxml
+pkg
