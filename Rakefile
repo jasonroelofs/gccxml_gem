@@ -2,7 +2,7 @@ require 'rake/testtask'
 require 'rake/rdoctask'
 require 'rake/gempackagetask'
 
-PROJECT_NAME = "gccxml"
+PROJECT_NAME = "gccxml_gem"
 GCCXML_VERSION = "0.9"
 RUBYFORGE_USERNAME = "jameskilton"
 
