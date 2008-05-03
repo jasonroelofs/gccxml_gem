@@ -30,7 +30,7 @@ task :install do
   end
 
   sh "chmod a+x bin/*"
-  sh "chmod a+rx -R share/"
+  sh "chmod -R a+rx share/"
 end
 
 desc "Clean up everything"
