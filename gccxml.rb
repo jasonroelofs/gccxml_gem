@@ -35,7 +35,13 @@ class GCCXML
     path.chomp!
 
     if `#{path} --version 2>&1` !~ /GCC-XML/
-      raise "Unable to find gccxml executable: #{path}"
+      if File.exists?(path)
+        # This is the Rubygems <= 1.1.1 bug of not setting file attributes properly
+        dir = File.expand_path(File.dirname(__FILE__))
+        raise "Unable to execute gccxml. Please run 'sudo chmod -R a+x #{dir}'"
+      else
+        raise "Unable to find gccxml executable: #{path}"
+      end
     end
 
     path
