@@ -4,6 +4,8 @@ require 'rbconfig'
 # setting up certain use flags according to what was specified.
 class GCCXML
 
+  PLATFORM = RUBY_PLATFORM unless defined?(PLATFORM)
+
   def initialize()
     @exe = find_exe.strip.chomp
     @includes = []
