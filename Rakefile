@@ -3,7 +3,7 @@ require 'rake/rdoctask'
 require 'rake/gempackagetask'
 
 PROJECT_NAME = "gccxml_gem"
-GCCXML_VERSION = "0.9.1"
+GCCXML_VERSION = "0.9.2"
 RUBYFORGE_USERNAME = "jameskilton"
 
 desc "Build gccxml for this system" 
