@@ -4,8 +4,6 @@ require 'rbconfig'
 # setting up certain use flags according to what was specified.
 class GCCXML
 
-  PLATFORM = RUBY_PLATFORM unless defined?(PLATFORM)
-
   def initialize()
     @exe = find_exe.strip.chomp
     @includes = []
@@ -34,7 +32,7 @@ class GCCXML
   private
 
   def find_exe
-    ext = if PLATFORM =~ /mswin/
+    ext = if RUBY_PLATFORM =~ /mswin/
             ".exe"
           else
             ""
