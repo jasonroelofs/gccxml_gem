@@ -31,6 +31,10 @@ task :install do
 
   sh "chmod a+x bin/*"
   sh "chmod -R a+rx share/"
+
+  cd "bin" do
+    `cp gccxml_cc1plus.exe gccxml_cc1plus` if File.exists?("gccxml_cc1plus.exe")
+  end
 end
 
 desc "Clean up everything"

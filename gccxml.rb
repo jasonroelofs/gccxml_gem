@@ -31,12 +31,12 @@ class GCCXML
 
   private
 
+  def windows?
+    RUBY_PLATFORM =~ /(mswin|cygwin)/
+  end
+
   def find_exe
-    ext = if RUBY_PLATFORM =~ /(mswin|cygwin)/
-            ".exe"
-          else
-            ""
-          end
+    ext = windows? ? ".exe" : ""
 
     path = File.expand_path(File.join(File.dirname(__FILE__), "bin", "gccxml#{ext}"))
     path.chomp!
