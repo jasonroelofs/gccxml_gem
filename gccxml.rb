@@ -32,7 +32,7 @@ class GCCXML
   private
 
   def find_exe
-    ext = if RUBY_PLATFORM =~ /mswin/
+    ext = if RUBY_PLATFORM =~ /(mswin|cygwin)/
             ".exe"
           else
             ""
