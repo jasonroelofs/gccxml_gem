@@ -9,6 +9,10 @@ RUBYFORGE_USERNAME = "jameskilton"
 desc "Build gccxml for this system" 
 task :build_gccxml => [:clean, :unpack, :build, :install] 
 
+def make_cmd
+  PLATFORM =~ /mswin/ ? "mingw32-make" : "make"
+end
+
 task :unpack do
   cd "ext" do
     sh "tar xzvf gccxml.tar.gz"
@@ -18,15 +22,18 @@ end
 
 task :build do
   install_path = File.expand_path(File.dirname(__FILE__))
+
+  platform = PLATFORM =~ /mswin/ ? "-G \"MinGW Makefiles\"" : ""
+
   cd "ext/gccxml-build" do
-    sh "cmake -DCMAKE_INSTALL_PREFIX:PATH=#{install_path} ../gccxml"
-    sh "make"
+    sh "cmake -DCMAKE_INSTALL_PREFIX:PATH=#{install_path} #{platform} ../gccxml"
+    sh make_cmd
   end
 end
 
 task :install do
   cd "ext/gccxml-build" do
-    sh "make install"
+    sh "#{make_cmd} install"
   end
 
   sh "chmod a+x bin/*"
@@ -74,6 +81,4 @@ and using RbGCCXML.
 end
 
 Rake::GemPackageTask.new(spec) do |pkg|
-  pkg.need_zip = true
-  pkg.need_tar = true
 end
