@@ -30,4 +30,4 @@ Or you can use the small Ruby lib that's included
 Misc
 ----
 
-Project page: "http://github.com/jameskilton/gccxml_gem":http://github.com/jameskilton/gccxml_gem
+Project page: [http://github.com/jameskilton/gccxml_gem](http://github.com/jameskilton/gccxml_gem)
