@@ -1,4 +1,4 @@
-== GCC-XML in Gem form
+h3. GCC-XML in Gem form
 
 This package is simply to make it easy for anyone to install the GCC-XML
 package on their system. Binary gems are provided at
@@ -26,6 +26,6 @@ Or you can use the small Ruby lib that's included
   # to write the resulting XML to output_file
   gccxml.parse(path_to_header, output_file)
 
-== Misc
+h3. Misc
 
 Project page: http://github.com/jameskilton/gccxml_gem
