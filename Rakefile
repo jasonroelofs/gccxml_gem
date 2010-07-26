@@ -7,7 +7,7 @@ GCCXML_VERSION = "0.9.2"
 RUBYFORGE_USERNAME = "jameskilton"
 
 desc "Build gccxml for this system" 
-task :build_gccxml => [:clean, :unpack, :build, :install] 
+task :build_gccxml => [:clean, :unpack, :prepare, :build, :install] 
 
 def make_cmd
   PLATFORM =~ /mswin/ ? "mingw32-make" : "make"
@@ -17,6 +17,17 @@ task :unpack do
   cd "ext" do
     sh "tar xzvf gccxml.tar.gz"
     mkdir "gccxml-build"
+  end
+end
+
+# Handles any patching / updates we need to do to GCCXML before
+# building
+task :prepare do
+  headers = Dir["headers/*.h"]
+  headers.each do |header|
+    cp header, "ext/gccxml/GCC_XML/Support/GCC/4.0"
+    cp header, "ext/gccxml/GCC_XML/Support/GCC/4.1"
+    cp header, "ext/gccxml/GCC_XML/Support/GCC/4.2"
   end
 end
 
