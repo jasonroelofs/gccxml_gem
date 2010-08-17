@@ -1,7 +1,7 @@
 GCC-XML in Gem form
 ===================
 
-This package is simply to make it easy for anyone to install the GCC-XML
+This package exists to make it easy for anyone to install the GCC-XML
 package on their system. Binary gems are provided at
 
 [http://rubygems.org/gems/gccxml_gem](http://rubygems.org/gems/gccxml_gem)
