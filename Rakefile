@@ -1,16 +1,16 @@
 require 'rake/testtask'
-require 'rake/rdoctask'
-require 'rake/gempackagetask'
+require 'rdoc/task'
+require 'rubygems/package_task'
 
 PROJECT_NAME = "gccxml_gem"
 GCCXML_VERSION = "0.9.3"
 RUBYFORGE_USERNAME = "jameskilton"
 
-desc "Build gccxml for this system" 
-task :build_gccxml => [:clean, :unpack, :build, :install] 
+desc "Build gccxml for this system"
+task :build_gccxml => [:clean, :unpack, :build, :install]
 
 def make_cmd
-  PLATFORM =~ /mswin/ ? "mingw32-make" : "make"
+  RUBY_PLATFORM =~ /mswin/ ? "mingw32-make" : "make"
 end
 
 task :unpack do
@@ -23,10 +23,10 @@ end
 task :build do
   install_path = File.expand_path(File.dirname(__FILE__))
 
-  platform = PLATFORM =~ /mswin/ ? "-G \"MinGW Makefiles\"" : ""
+  platform = RUBY_PLATFORM =~ /mswin/ ? "-G \"MinGW Makefiles\"" : ""
 
   cd "ext/gccxml-build" do
-    sh "cmake -DCMAKE_INSTALL_PREFIX:PATH=#{install_path} #{platform} ../gccxml"
+    sh "cmake -DCMAKE_INSTALL_PREFIX:PATH=#{install_path} -DCMAKE_BUILD_TYPE=None #{platform} ../gccxml"
     sh make_cmd
   end
 end
@@ -45,15 +45,14 @@ task :install do
 end
 
 desc "Clean up everything"
-task :clean => [:clobber] do
+task :clean do
   rm_rf "ext/gccxml"
   rm_rf "ext/gccxml-build"
   rm_rf "bin"
   rm_rf "share"
 end
 
-spec = Gem::Specification.new do |s|
-  s.platform = Gem::Platform::CURRENT
+base_spec = lambda do |s|
   s.name = PROJECT_NAME
   s.version = GCCXML_VERSION
   s.summary = 'Easy install for GCCXML'
@@ -61,12 +60,19 @@ spec = Gem::Specification.new do |s|
   s.rubyforge_project = "rbplusplus"
   s.author = 'Jason Roelofs'
   s.email = 'jameskilton@gmail.com'
-  
+
   s.description = <<-END
 Because GCCXML is difficult to install on all platforms,
 this binary gem is provided for ease of installing
 and using RbGCCXML.
   END
+
+  s.require_paths = ['.']
+end
+
+binary_spec = Gem::Specification.new do |s|
+  base_spec.call(s)
+  s.platform = Gem::Platform::CURRENT
 
   patterns = [
     'Rakefile',
@@ -76,9 +82,26 @@ and using RbGCCXML.
   ]
 
   s.files = patterns.map {|p| Dir.glob(p) }.flatten
-
-  s.require_paths = ['.']
 end
 
-Rake::GemPackageTask.new(spec) do |pkg|
+pure_ruby_spec = Gem::Specification.new do |s|
+  base_spec.call(s)
+  s.platform = Gem::Platform::RUBY
+
+  patterns = [
+    'Rakefile',
+    '*.rb'
+  ]
+
+  s.files = patterns.map {|p| Dir.glob(p) }.flatten
+end
+
+desc "Build binary build of the gem"
+task :binary_gem do
+  Gem::Builder.new(binary_spec).build
+end
+
+desc "Build pure ruby build of the gem"
+task :pure_ruby_gem do
+  Gem::Builder.new(pure_ruby_spec).build
 end

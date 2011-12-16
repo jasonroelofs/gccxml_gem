@@ -37,21 +37,24 @@ class GCCXML
 
   def find_exe
     ext = windows? ? ".exe" : ""
+    binary = "gccxml#{ext}"
 
-    path = File.expand_path(File.join(File.dirname(__FILE__), "bin", "gccxml#{ext}"))
+    path = File.expand_path(File.join(File.dirname(__FILE__), "bin", binary))
     path.chomp!
 
-    if `#{path} --version 2>&1` !~ /GCC-XML/
+    if `#{path} --version 2>&1` =~ /GCC-XML/
+      path
+    elsif `#{binary} --version 2>&1` =~ /GCC-XML/
+      binary
+    else
       if File.exists?(path)
         # This is the Rubygems <= 1.1.1 bug of not setting file attributes properly
         dir = File.expand_path(File.dirname(__FILE__))
         raise "Unable to execute gccxml. Please run 'sudo chmod -R a+x #{dir}'"
       else
-        raise "Unable to find gccxml executable: #{path}"
+        raise "Unable to find gccxml executable locally or on your PATH."
       end
     end
-
-    path
   end
 
 end
