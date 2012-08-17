@@ -59,7 +59,7 @@ base_spec = lambda do |s|
   s.homepage = 'http://rbplusplus.rubyforge.org/'
   s.rubyforge_project = "rbplusplus"
   s.author = 'Jason Roelofs'
-  s.email = 'jameskilton@gmail.com'
+  s.email = 'jasongroelofs@gmail.com'
 
   s.description = <<-END
 Because GCCXML is difficult to install on all platforms,
