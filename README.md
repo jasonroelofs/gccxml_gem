@@ -1,6 +1,14 @@
 GCC-XML in Gem form
 ===================
 
+**Deprecated Gem**
+
+GCCXML used to be quite difficult to install on all systems, but with the advent of tools like homebrew on Mac, it's much easier to build, install, and use GCCXML on all platforms.
+
+This gem is no longer required, and the functionality has been merged into [rbgccxml](http://github.com/jasonroelofs/rbgccxml).
+
+------------------
+
 This package exists to make it easy for anyone to install the GCC-XML
 package on their system. Binary gems are provided at
 
